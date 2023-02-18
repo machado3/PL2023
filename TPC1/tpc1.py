@@ -1,4 +1,5 @@
 import sys
+from matplotlib import pyplot
 
 #idade,sexo,tensão,colesterol,batimento,temDoença
 f = open("myheart.csv","rt")
@@ -29,7 +30,7 @@ def to_tuples(bigList):
     for thing in bigList:
         elem = tuple(thing)
         nList.append(elem)
-    print(nList)
+    print(nList)    
     return nList
 
 def testage(nList):
@@ -39,11 +40,36 @@ def testage(nList):
         idades.append(age)
     idades.sort()
     idades.reverse()
-    print(idades)
     
+    
+def distribG(nList):
+    numM    = 0
+    n_sickM = 0
+    numF   = 0
+    n_sickF = 0
 
     
-testage(to_tuples(to_list(f)))
+    for coisa in nList:
+        if coisa[1]=='M':
+                if coisa[5] =='1':
+                    numM+=1
+                    n_sickM +=1
+                else:
+                    numM+=1
+        else:
+            if coisa[5] =='1':
+                    numF+=1
+                    n_sickF +=1
+            else:
+                    numF+=1
+    genders = {"Mulheres Doentes": n_sickF, "Mulheres":numF,"percentagemF":(n_sickF/numF)*100, "Homens Doentes": n_sickM, "Homens":numM, "percentageM":(n_sickM/numM)*100}
+    print(genders)
+    return genders
+
+    
+    
+distribG(to_tuples(to_list(f)))
+
     
            
 
