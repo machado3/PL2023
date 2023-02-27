@@ -6,33 +6,30 @@
 #Sempre que encontrar a string “On” em qualquer combinação de maiúsculas e minúsculas, esse comportamento é novamente ligado;
 #Sempre que encontrar o caráter “=”, o resultado da soma é colocado na saída.
 
-
 import sys
 
-print("TPC2")
-print("Insira textto:")
-
-state = 1
-lines = []
-
-
 accum = 0
+state = True
+
 for line in sys.stdin:
-    lines.append(line.strip())
-    if state:
-        if "Off" or "off" or "oFF" or "OFF" or "oFf" or "OfF" in line :
-            state = 0 
-        
-        for thing in lines:
-            if "=" in thing:
-                print(accum)
-                break
-            for coisa in thing:
-                
-                if coisa.isdigit():
-                    accum+= int(coisa)
-    else:
-        if "On" or "on" or "oN" in line:
-            state = 1
-                
+        line = line.strip()
+        if line.lower() == 'off':
+            state = False
+        elif line.lower() == 'on':
+            state = True
+        elif '=' in line:
+            print(accum)
+        elif state:
+            curr_num = ''
+            for char in line:
+                if char.isdigit():
+                    curr_num += char
+                elif curr_num:
+                    accum += int(curr_num)
+                    curr_num = ''
+
+            if curr_num:
+                accum += int(curr_num)
+
+
 
