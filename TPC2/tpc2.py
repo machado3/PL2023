@@ -1,4 +1,4 @@
-#do me a function that parses a file
+
 #Crie um programa em Python que tenha o seguinte comportamento:
 #Pretende-se um programa que some todas as sequências de dígitos que encontre num texto;
 #Prepare o programa para ler o texto do canal de entrada: stdin;
