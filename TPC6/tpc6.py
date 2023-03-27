@@ -1,6 +1,6 @@
 import ply.lex as lex
 
-# Define the reserved keywords
+
 reserved = {
     'int': 'INT',
     'function': 'FUNCTION',
@@ -11,17 +11,15 @@ reserved = {
     'print': 'PRINT'
 }
 
-# Define the token names
+
 tokens = [
-    'ID', 'NUMBER',
+    'ID', 'NUMBER', 'RANGE',
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE',
     'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'COMMA', 'SEMI',
-    'LT', 'GT', 'EQ', 'LE', 'GE', 'NE', 'LBRACKET', 'RBRACKET'
+    'LT', 'GT', 'EQ', 'LE', 'GE', 'NE',
 ] + list(reserved.values())
 
-# Define regular expressions for simple tokens
-t_LBRACKET = r'\['
-t_RBRACKET = r'\]'
+
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
@@ -39,7 +37,7 @@ t_LE = r'<='
 t_GE = r'>='
 t_NE = r'!='
 
-# Define regular expressions for more complex tokens
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reserved.get(t.value, 'ID')
@@ -50,7 +48,12 @@ def t_NUMBER(t):
     t.value = int(t.value)
     return t
 
-# Define a rule to ignore whitespace and comments
+def t_RANGE(t):
+    r'\[\d+\.\.\d+\]'
+    t.value = t.value[1:-1]  
+    return t
+
+
 def t_ignore_WHITESPACE(t):
     r'\s+'
     pass
@@ -59,12 +62,12 @@ def t_ignore_COMMENT(t):
     r'\/\/.*'
     pass
 
-# Define a rule to handle errors
+
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
-# Build the lexer
+
 lexer = lex.lex()
 
 program_string = """
